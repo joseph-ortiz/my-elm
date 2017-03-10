@@ -13,5 +13,20 @@ ask thing place =
 askPolitelyAboutCat : String -> String
 askPolitelyAboutCat = politely << (ask "Cat")
 
+
+type alias Dog =
+    { name : String
+    , age : Int
+    }
+
+dog =
+    { name = "Dyno"
+    , age = 2
+    }
+
+renderDog : Dog -> String
+renderDog dog =
+    dog.name ++ " is " ++ (toString dog.age) ++ " years old."
+
 main =
-    text <| askPolitelyAboutCat "Hat"
+    text <| renderDog dog
