@@ -67,9 +67,23 @@ viewValidation model =
           ("green", "Has an upper case")
         else
           ("red", "Needs an Upper Case")
+
+    (hasLowerColor, hasLowerMessage) =
+        if contains (regex "[a-z]") model.password then
+          ("green", "Has a lower case")
+        else
+          ("red", "Needs an lower Case")
+
+    (hasNumberColor, hasNumberMessage) =
+        if contains (regex "[0-9]") model.password then
+          ("green", "Has a number")
+        else
+          ("red", "Needs a number")
   in
       div []
       [ div [ style [("color", matchColor)] ] [text matchMessage]
       , div [ style [("color", lengthColor)] ] [text lengthMessage]
       , div [ style [("color", hasUpperColor)] ] [text hasUpperMessage]
+      , div [ style [("color", hasLowerColor)] ] [text hasLowerMessage]
+      , div [ style [("color", hasNumberColor)] ] [text hasNumberMessage]
       ]
