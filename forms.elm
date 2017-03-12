@@ -13,17 +13,19 @@ type alias Model =
   { name : String
   , password : String
   , passwordAgain : String
+  , age : String
   }
 
 model : Model
 model =
-  Model "" "" ""
+  Model "" "" "" ""
 
 -- UPDATE
 type Msg
   = Name String
     | Password String
     | PasswordAgain String
+    | Age String
 
 update : Msg -> Model -> Model
 update msg model =
@@ -37,6 +39,9 @@ update msg model =
     PasswordAgain password ->
       { model | passwordAgain = password }
 
+    Age age ->
+      {model | age = age }
+
 -- VIEW
 view : Model -> Html Msg
 view model =
@@ -44,6 +49,7 @@ view model =
     [ input [ type_ "text", placeholder "Name", onInput Name ] []
     , input [ type_ "password", placeholder "Password", onInput Password ] []
     , input [ type_ "password", placeholder "Re-enter Password", onInput PasswordAgain ] []
+    , input [ type_ "number", placeholder "0", onInput Age] []
     , viewValidation model
     ]
 
@@ -79,6 +85,13 @@ viewValidation model =
           ("green", "Has a number")
         else
           ("red", "Needs a number")
+
+    (ageIsNumberColor, ageIsNumberMessage) =
+        if contains (regex "[0-9]") model.age then
+          ("green", "Age is a number")
+        else
+          ("red", "Age is NOT a number")
+
   in
       div []
       [ div [ style [("color", matchColor)] ] [text matchMessage]
@@ -86,4 +99,5 @@ viewValidation model =
       , div [ style [("color", hasUpperColor)] ] [text hasUpperMessage]
       , div [ style [("color", hasLowerColor)] ] [text hasLowerMessage]
       , div [ style [("color", hasNumberColor)] ] [text hasNumberMessage]
+      , div [ style [("color", ageIsNumberColor)] ] [text ageIsNumberMessage]
       ]
